@@ -3,7 +3,7 @@ import { app } from '@/app'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
-describe('Search Gyms (e2e)', () => {
+describe('Nearby Gyms (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -12,7 +12,7 @@ describe('Search Gyms (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to search gyms by title', async () => {
+  it('should be able to list nearby gyms', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
     await request(app.server)
@@ -33,14 +33,15 @@ describe('Search Gyms (e2e)', () => {
         title: 'TypeScript Gym',
         description: 'Some description',
         phone: '85999999999',
-        latitude: -3.8433984,
-        longitude: -38.5182576,
+        latitude: -3.6788244,
+        longitude: -38.6666819,
       })
 
     const response = await request(app.server)
-      .get('/gyms/search')
+      .get('/gyms/nearby')
       .query({
-        query: 'JavaScript',
+        latitude: -3.8433984,
+        longitude: -38.5182576,
       })
       .set('Authorization', `Bearer ${token}`)
       .send()
